@@ -35,6 +35,9 @@ exec --no-startup-id blueman-applet
 #Xresource refresh
 exec --no-startup-id "/usr/bin/xrdb /home/keithl/.Xresources" 
 
+#Enable compositor
+exec --no-startup-id "picom -b"
+
 #set monitors in correct positions
 #exec --no-startup-id "/home/keithl/.config/i3/fourMon2.sh"
 exec --no-startup-id "/home/keithl/.screenlayout/laptop-alone.sh"
@@ -43,7 +46,8 @@ exec --no-startup-id "/home/keithl/.screenlayout/laptop-alone.sh"
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
