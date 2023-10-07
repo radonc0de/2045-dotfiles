@@ -38,9 +38,11 @@ exec --no-startup-id "/usr/bin/xrdb /home/keithl/.Xresources"
 #Enable compositor
 exec --no-startup-id "picom -b"
 
+#Disable caps-lock
+exec_always --no-startup-id "setxkbmap -option ctrl:nocaps"
+
 #set monitors in correct positions
-#exec --no-startup-id "/home/keithl/.config/i3/fourMon2.sh"
-exec --no-startup-id "/home/keithl/.screenlayout/laptop-alone.sh"
+exec_always --no-startup-id "/home/keithl/.config/i3/detect_monitor.sh"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -48,6 +50,11 @@ floating_modifier $mod
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec alacritty
+
+
+#default display settings
+bindsym $mod+Shift+Return exec "/home/keithl/.screenlayout/laptop-alone.sh"
+bindsym $mod+Control+Return exec "/home/keithl/.screenlayout/monitor-alone.sh"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -65,10 +72,10 @@ bindsym $mod+c exec rofi -show calc -modi
 bindsym $mod+e exec rofimoji
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -77,10 +84,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -89,7 +96,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # SPLIT In horizontal orientation
-bindsym $mod+h split h
+# bindsym $mod+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -171,10 +178,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -194,10 +201,10 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 
 bar {
-        status_command i3blocks -c /home/keithl/.config/i3/i3blocks.conf
+    status_command i3blocks -c /home/keithl/.config/i3/i3blocks.conf
 	position top
 	tray_output primary
-	font pango:FiraMono-Medium 14
+	font pango:FiraMono-Medium 18
         colors {
 		
 		background #282A36
@@ -209,6 +216,26 @@ bar {
     		inactive_workspace #282A36 #282A36 #BFBFBF
     		urgent_workspace   #FF5555 #FF5555 #F8F8F2
     		binding_mode       #FF5555 #FF5555 #F8F8F2
+    	}
+}
+
+bar {
+    status_command i3blocks -c /home/keithl/.config/i3/i3blocks1.conf
+    workspace_buttons no
+	position bottom
+	tray_output primary
+	font pango:FiraMono-Medium 18
+        colors {
+		
+		background #282A36
+    		statusline #F8F8F2
+    		separator  #44475A
+
+    		focused_workspace  #282A36 #44475A #F8F8F2
+    		active_workspace   #282A36 #44475A #F8F8F2
+    		inactive_workspace #282A36 #282A36 #BFBFBF
+    		urgent_workspace   #282A36 #FF5555 #F8F8F2
+    		binding_mode       #282A36 #FF5555 #F8F8F2
     	}
 }
 
@@ -251,8 +278,6 @@ bindsym XF86AudioPlay exec --no-startup-id playerctl -p spotify play-pause
 bindsym XF86MonBrightnessUp exec --no-startup-id cat /sys/class/backlight/intel_backlight/brightness | awk '{print $1+500}' > /sys/class/backlight/intel_backlight/brightness
 bindsym XF86MonBrightnessDown exec --no-startup-id cat /sys/class/backlight/intel_backlight/brightness | awk '{print $1-500}' > /sys/class/backlight/intel_backlight/brightness
 
-#desktop background
-
 #i3 lock config
 bindsym $mod+shift+x exec ~/.config/i3/i3lockconfig
 #exec --no-startup-id xautolock -time 10 -locker 'i3lock -d -c 000000'
@@ -267,28 +292,11 @@ bindsym $mod+F5 exec playerctl previous
 bindsym $mod+F6 exec playerctl play-pause
 bindsym $mod+F7 exec playerctl next
 
-#discord fix
-bindsym $mod+z exec /home/keithl/.config/i3/discordfix.sh
-
 #pavucontrol command
 bindsym $mod+F1 exec pavucontrol 
 
-#exec_always feh --bg-scale /home/keithl/Pictures/dracwalpB.jpg /home/keithl/Pictures/dracwalpA.jpg /home/keithl/Pictures/dracwalpC.jpg /home/keithl/Pictures/dracwalpD.jpg
-#exec_always feh --bg-scale /home/keithl/Pictures/wrx/IMG_3615.jpg /home/keithl/Pictures/wrx/IMG_3603.jpg /home/keithl/Pictures/wrx/IMG_3604.jpg
-#exec_always feh --bg-scale /home/keithl/Pictures/wrx/IMG_3615.jpg /home/keithl/Pictures/wrx/IMG_3603.jpg /home/keithl/Pictures/wrx/IMG_3604.jpg
-#exec_always feh --bg-scale --no-xinerama /home/keithl/Pictures/city.jpeg
-#exec_always feh --bg-scale --no-xinerama /home/keithl/Pictures/Wallpapers/cartooncity.jpg
-#exec_always feh --bg-scale --no-xinerama /home/keithl/Pictures/Wallpapers/mountains.jpg
-#exec_always feh --bg-scale solarsystem.jpeg mountains.jpg
-
-##ultrawide planets wallpaper
-#exec_always feh --bg-scale /home/keithl/Pictures/Wallpapers/solarsystem.jpeg
-
-##fields 3:2 for laptop
-exec_always feh --bg-scale /home/keithl/Pictures/Wallpapers/fields.jpg
-
 #exec --no-startup-id mpg123 -a hw:2 ~/Music/startup.mp3
-exec --no-startup-id mpg123 -a hw:2 ~/Music/dababy.mp3
+#exec --no-startup-id mpg123 -a hw:2 ~/Music/dababy.mp3
 
 #programs to workspaces
 

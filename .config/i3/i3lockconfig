@@ -1,0 +1,8 @@
+#!/bin/bash
+ICON=~/.config/i3/lock.png
+TMPBG=/tmp/screen.png
+scrot /tmp/screen.png
+convert $TMPBG -filter point -resize 10% -resize 1000% $TMPBG
+convert $TMPBG $ICON -gravity center -composite -matte $TMPBG
+i3lock -i /tmp/screen.png
+rm /tmp/screen.png
